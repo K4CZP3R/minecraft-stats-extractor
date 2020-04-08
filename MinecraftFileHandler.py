@@ -2,7 +2,7 @@ from os import path, listdir
 import uuid, json
 class MinecraftFileHandler:
     def __init__(self, stats_location):
-        if path.exists(stats_location):
+        if path.isdir(stats_location):
             self.stats_location = stats_location
         else:
             raise ValueError(f"'{stats_location}' is not a valid location!")
