@@ -1,15 +1,15 @@
 import MinecraftStats, MinecraftFileHandler, json
-from os import path
+from os import path, environ, getenv
 import subprocess as cmd
 
-GIT_PATH = ""
-STATS_PATH = ""
-LATEST_PATH = ""
+RESOURCES_PATH = getenv('RESOURCES_PATH')
+STATS_PATH = getenv('STATS_PATH')
+WORLD_STATS = getenv('WORLD_STATS')
 
 def push_to_git():
-    cp = cmd.run(f"cd {GIT_PATH} && git add stats-repo\\latest.json && git commit -m \"[stats-repo] Update\" && git push -u origin master -f", check=True, shell=True)
+    cp = cmd.run(f"cd {RESOURCES_PATH} && git add {STATS_PATH} && git commit -m \"[stats-repo] Update\" && git push -u origin master -f", check=True, shell=True)
     
-mF = MinecraftFileHandler.MinecraftFileHandler("stats")
+mF = MinecraftFileHandler.MinecraftFileHandler(WORLD_STATS)
 stats =  mF.get_users_stats()
 
 
@@ -18,5 +18,5 @@ for stat in stats:
     data_to_export = MinecraftStats.MinecraftStats(stat['content'],stat['uuid']).export_data()
     all_stats.append(data_to_export)
 
-json.dump(all_stats, open(LATEST_PATH,'w+'))
+json.dump(all_stats, open(RESOURCES_PATH + "/" + STATS_PATH,'w+'))
 push_to_git()
