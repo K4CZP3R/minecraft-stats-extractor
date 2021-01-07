@@ -5,8 +5,12 @@ import subprocess as cmd
 RESOURCES_PATH = getenv('RESOURCES_PATH')
 STATS_PATH = getenv('STATS_PATH')
 WORLD_STATS = getenv('WORLD_STATS')
+GIT_USERNAME = getenv('GIT_USERNAME')
+GIT_PASSWORD = getenv('GIT_PASSWORD')
 
 def push_to_git():
+    cp = cmd.run(f"git config --global user.name \"{GIT_USERNAME}\"")
+    cp = cmd.run(f"git config --global user.password \"{GIT_PASSWORD}\"")
     cp = cmd.run(f"cd {RESOURCES_PATH} && git add {STATS_PATH} && git commit -m \"[stats-repo] Update\" && git push -u origin master -f", check=True, shell=True)
     
 mF = MinecraftFileHandler.MinecraftFileHandler(WORLD_STATS)
