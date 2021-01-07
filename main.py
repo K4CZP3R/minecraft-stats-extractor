@@ -1,5 +1,5 @@
 import MinecraftStats, MinecraftFileHandler, json
-from os import path, environ, getenv
+from os import path, environ, getenv, system
 import subprocess as cmd
 
 RESOURCES_PATH = getenv('RESOURCES_PATH')
@@ -9,8 +9,6 @@ GIT_USERNAME = getenv('GIT_USERNAME')
 GIT_PASSWORD = getenv('GIT_PASSWORD')
 
 def push_to_git():
-    cp = cmd.run(f"git config --global user.name \"{GIT_USERNAME}\"")
-    cp = cmd.run(f"git config --global user.password \"{GIT_PASSWORD}\"")
     cp = cmd.run(f"cd {RESOURCES_PATH} && git add {STATS_PATH} && git commit -m \"[stats-repo] Update\" && git push -u origin master -f", check=True, shell=True)
     
 mF = MinecraftFileHandler.MinecraftFileHandler(WORLD_STATS)
